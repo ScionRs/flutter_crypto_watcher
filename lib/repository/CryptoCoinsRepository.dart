@@ -17,7 +17,7 @@ class CryptoCoinsRepository implements AbstractCoinsRepository{
     final dataRaw = data['RAW'] as Map<String, dynamic>;
     final cryptoList = dataRaw.entries.map((item) {
       final rubData = (item.value as Map <String, dynamic>)['RUB'];
-      final priceRUB = rubData['RUB'];
+      final priceRUB = rubData['PRICE'];
       final imageUrl = rubData['IMAGEURL'];
       final openDay = rubData['OPENDAY'];
       final highDay = rubData['HIGHDAY'];
@@ -34,7 +34,7 @@ class CryptoCoinsRepository implements AbstractCoinsRepository{
         changeDay: changeDay,
       );
     }).toList();
-
+    print(cryptoList);
     return cryptoList;
   }
 }
