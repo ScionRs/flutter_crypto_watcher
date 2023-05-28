@@ -34,7 +34,12 @@ class _CryptoListScreenState extends State<CryptoListScreen> {
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
     return Scaffold(
-      appBar: AppBar(title: const Text('Crypto'),),
+      backgroundColor: AppColors.black2,
+      appBar: AppBar(
+        title: const Text('Crypto'),
+        backgroundColor: AppColors.black2,
+        shadowColor: Colors.transparent,
+       ),
       body: RefreshIndicator(
         onRefresh: () async {
           final completer = Completer();
@@ -46,6 +51,7 @@ class _CryptoListScreenState extends State<CryptoListScreen> {
           builder: (context, state){
             if(state is CryptoLoaded){
               return ListView.builder(
+                  physics: const BouncingScrollPhysics(),
                   itemCount: state.coinsList.length,
                   itemBuilder: (context, i){
                     final coin = state.coinsList[i];
@@ -53,38 +59,39 @@ class _CryptoListScreenState extends State<CryptoListScreen> {
                     double cryptoChange = CryptoService.getPercentChange(coin.changeDay,coin.priceInRUB);
                     // проверяем в плюсе ли значение или нет
                     bool isCryptoChangePlus = cryptoChange > 0 ? true : false;
-                    return ListTile(
-                      leading: SizedBox(
-                        width: 30,
-                        height: 30,
-                        child: Image.network(
-                          coin.imageUrl,
-                          fit: BoxFit.cover,
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: ListTile(
+                        leading: SizedBox(
+                          width: 30,
+                          height: 30,
+                          child: Image.network(
+                            coin.imageUrl,
+                            fit: BoxFit.cover,
+                          ),
                         ),
-                      ),
-                      title: Text(coin.name),
-                      trailing: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(coin.priceInRUB.toString()),
-                          Text('${cryptoChange.toStringAsFixed(3)} %',
-                            style: textTheme.titleSmall!.copyWith(color: isCryptoChangePlus ? AppColors.success : AppColors.error),),
-                        ],
-                      ),
-                      onTap: () {
-                        // Обработчик нажатия
-                      },
-                      onLongPress: () {
-                        // Обработчик длинного нажатия
-                      },
-                      selected: true, // Выбранный элемент списка
-                      enabled: false, // Отключенный элемент списка
-                      contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                      dense: true, // Компактный виджет
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                        side: BorderSide(color: Colors.grey),
+                        title: Text(coin.name, style: textTheme.titleLarge,),
+                        trailing: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text('${coin.priceInRUB}', style: textTheme.titleMedium,),
+                            Text('${cryptoChange.toStringAsFixed(3)} %',
+                              style: textTheme.titleSmall!.copyWith(color: isCryptoChangePlus ? AppColors.success : AppColors.error),),
+                          ],
+                        ),
+                        onTap: () {
+                          // Обработчик нажатия
+                        },
+                        selected: true, // Выбранный элемент списка
+                        enabled: false, // Отключенный элемент списка
+                        contentPadding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 8.0),
+                        dense: true, // Компактный виджет
+                        shape: const Border(
+                          bottom: BorderSide(
+                              width: 1.0,
+                              color: Colors.grey),
+                        ),
                       ),
                     );
                   });

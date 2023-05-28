@@ -35,7 +35,7 @@ TextTheme textTheme() {
     titleSmall: TextStyle(
       color: Colors.white,
       fontFamily: 'OpenSans',
-      fontSize: 12,
+      fontSize: 14,
     ),
   );
 }
