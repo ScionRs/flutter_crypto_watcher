@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:auto_route/auto_route.dart';
 import 'package:crypto_market/bloc/crypto_bloc.dart';
 import 'package:crypto_market/config/colors.dart';
 import 'package:crypto_market/repository/AbstractCoinsRepository.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
+@RoutePage()
 class CryptoListScreen extends StatefulWidget {
   @override
   State<CryptoListScreen> createState() => _CryptoListScreenState();
@@ -81,7 +83,7 @@ class _CryptoListScreenState extends State<CryptoListScreen> {
                           ],
                         ),
                         onTap: () {
-                          // Обработчик нажатия
+
                         },
                         selected: true, // Выбранный элемент списка
                         enabled: false, // Отключенный элемент списка

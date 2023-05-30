@@ -1,5 +1,6 @@
 import 'package:crypto_market/config/theme.dart';
 
+import 'config/app_route.dart';
 import 'screens/crypto_screen.dart';
 import 'package:crypto_market/repository/AbstractCoinsRepository.dart';
 import 'package:crypto_market/repository/CryptoCoinsRepository.dart';
@@ -11,21 +12,23 @@ void main() {
   GetIt.I.registerLazySingleton<AbstractCoinsRepository>(
         () => CryptoCoinsRepository(dio: Dio()),
   );
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+   MyApp({super.key});
+  final _appRouter = AppRoute();
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Flutter Demo',
       theme: theme(),
-      home: CryptoListScreen(),
+      routerConfig: _appRouter.config(),
     );
   }
 }
+
 
 
