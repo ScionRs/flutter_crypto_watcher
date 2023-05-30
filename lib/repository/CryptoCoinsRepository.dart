@@ -1,5 +1,6 @@
 
 import 'package:crypto_market/model/Crypto.dart';
+import 'package:crypto_market/model/CryptoCoinDetail.dart';
 import 'package:crypto_market/repository/AbstractCoinsRepository.dart';
 import 'package:dio/dio.dart';
 
@@ -37,5 +38,27 @@ class CryptoCoinsRepository implements AbstractCoinsRepository{
     }).toList();
     print(cryptoList);
     return cryptoList;
+  }
+
+  @override
+  Future<List<CryptoCoinDetail>> getCoinGraphDetails(String currencyCode) async{
+    String websiteUrl = "https://min-api.cryptocompare.com/data/exchange/histoday?fsum=${currencyCode}&tsym=RUB&limit=10";
+    final response = await dio.get(websiteUrl);
+    final data = response.data;
+    final dataFirst = data['Data'] as Map<String, dynamic>;
+    final cryptoChangeOfDay = dataFirst.entries.map((item) {
+      final cryptoCoinData = (item.value as Map<String, dynamic>)['Data'];
+      final high = cryptoCoinData['high'];
+      final low = cryptoCoinData['low'];
+      final open = cryptoCoinData['open'];
+      final close = cryptoCoinData['close'];
+      return CryptoCoinDetail(
+          high: high,
+          low: low,
+          open: open,
+          close: close);
+    }).toList();
+    print(cryptoChangeOfDay);
+    return cryptoChangeOfDay;
   }
 }
