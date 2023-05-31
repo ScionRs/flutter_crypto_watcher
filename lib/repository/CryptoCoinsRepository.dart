@@ -53,11 +53,14 @@ class CryptoCoinsRepository implements AbstractCoinsRepository{
       final low = cryptoCoinData['low'];
       final open = cryptoCoinData['open'];
       final close = cryptoCoinData['close'];
+      final dateTime = cryptoCoinData['time'];
       return CryptoCoinDetail(
           high: high,
           low: low,
           open: open,
-          close: close);
+          close: close,
+          dateTime: DateTime.fromMillisecondsSinceEpoch(dateTime * 1000),
+      );
     }).toList();
     print(cryptoChangeOfDay);
     return cryptoChangeOfDay;
