@@ -19,7 +19,8 @@ class CryptoBloc extends Bloc<CryptoEvent, CryptoState> {
         }
         final coinsList = await coinsRepository.getCoinsList();
         emit(CryptoLoaded(coinsList: coinsList));
-      } catch (e) {
+      } catch (e, st) {
+        print('${e}, ${st}');
         emit(CryptoLoadingFailure(exception: e));
       } finally{
         event.completer?.complete();

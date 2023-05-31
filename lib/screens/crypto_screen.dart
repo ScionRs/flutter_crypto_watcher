@@ -1,8 +1,11 @@
 import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:crypto_market/bloc/crypto_bloc.dart';
+import 'package:crypto_market/bloc/crypto_detail_bloc/crypto_coin_detail_bloc.dart';
+import 'package:crypto_market/config/app_route.gr.dart';
 import 'package:crypto_market/config/colors.dart';
 import 'package:crypto_market/repository/AbstractCoinsRepository.dart';
+import 'package:crypto_market/screens/crypto_screen_detail.dart';
 import 'package:crypto_market/service/crypto_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -58,41 +61,46 @@ class _CryptoListScreenState extends State<CryptoListScreen> {
                   itemBuilder: (context, i){
                     final coin = state.coinsList[i];
                     // изменения за день
-                    double cryptoChange = CryptoService.getPercentChange(coin.changeDay,coin.priceInRUB);
+                    num cryptoChange = CryptoService.getPercentChange(coin.changeDay,coin.priceInRUB);
                     // проверяем в плюсе ли значение или нет
                     bool isCryptoChangePlus = cryptoChange > 0 ? true : false;
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: ListTile(
-                        leading: SizedBox(
-                          width: 30,
-                          height: 30,
-                          child: Image.network(
-                            coin.imageUrl,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        title: Text(coin.name, style: textTheme.titleLarge,),
-                        trailing: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text('${coin.priceInRUB}', style: textTheme.titleMedium,),
-                            Text('${cryptoChange.toStringAsFixed(3)} %',
-                              style: textTheme.titleSmall!.copyWith(color: isCryptoChangePlus ? AppColors.success : AppColors.error),),
-                          ],
-                        ),
-                        onTap: () {
-
+                      child: GestureDetector(
+                        onTap: (){
+                          AutoRouter.of(context).push(CryptoCoinDetailRoute(coinDetail: coin));
                         },
-                        selected: true, // Выбранный элемент списка
-                        enabled: false, // Отключенный элемент списка
-                        contentPadding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 8.0),
-                        dense: true, // Компактный виджет
-                        shape: const Border(
-                          bottom: BorderSide(
-                              width: 1.0,
-                              color: Colors.grey),
+                        child: ListTile(
+                          leading: SizedBox(
+                            width: 30,
+                            height: 30,
+                            child: Image.network(
+                              coin.imageUrl,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          title: Text(coin.name, style: textTheme.titleLarge,),
+                          trailing: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text('${coin.priceInRUB}', style: textTheme.titleMedium,),
+                              Text('${cryptoChange.toStringAsFixed(3)} %',
+                                style: textTheme.titleSmall!.copyWith(color: isCryptoChangePlus ? AppColors.success : AppColors.error),),
+                            ],
+                          ),
+                          onTap: () {
+                            //context.router.push(CryptoCoinDetailRoute(coinDetail: coin));
+                          },
+                          selected: true, // Выбранный элемент списка
+                          enabled: false, // Отключенный элемент списка
+                          contentPadding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 8.0),
+                          dense: true, // Компактный виджет
+                          shape: const Border(
+                            bottom: BorderSide(
+                                width: 1.0,
+                                color: Colors.grey),
+                          ),
                         ),
                       ),
                     );

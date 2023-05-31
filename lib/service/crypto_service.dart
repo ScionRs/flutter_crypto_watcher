@@ -1,7 +1,7 @@
 
 class CryptoService{
   // возвращаем изменения за день
-  static double getPercentChange(double changeDay, double priceInRUB) {
+  static num getPercentChange(num changeDay, num priceInRUB) {
     return ((changeDay / priceInRUB) * 100.0);
   }
 }

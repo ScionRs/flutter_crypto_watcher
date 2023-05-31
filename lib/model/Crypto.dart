@@ -13,12 +13,12 @@ class CryptoCoin extends Equatable {
   });
 
   final String name;
-  final double priceInRUB;
+  final num priceInRUB;
   final String imageUrl;
-  final double openDay;
-  final double highDay;
-  final double lowDay;
-  final double changeDay;
+  final num openDay;
+  final num highDay;
+  final num lowDay;
+  final num changeDay;
 
   @override
   List<Object> get props => [name, priceInRUB, imageUrl];

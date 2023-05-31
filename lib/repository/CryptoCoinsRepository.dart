@@ -40,6 +40,7 @@ class CryptoCoinsRepository implements AbstractCoinsRepository{
     return cryptoList;
   }
 
+
   @override
   Future<List<CryptoCoinDetail>> getCoinGraphDetails(String currencyCode) async{
     String websiteUrl = "https://min-api.cryptocompare.com/data/exchange/histoday?fsum=${currencyCode}&tsym=RUB&limit=10";
