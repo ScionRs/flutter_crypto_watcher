@@ -3,6 +3,7 @@ import 'package:crypto_market/model/Crypto.dart';
 import 'package:crypto_market/model/CryptoCoinDetail.dart';
 import 'package:crypto_market/repository/AbstractCoinsRepository.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 
 class CryptoCoinsRepository implements AbstractCoinsRepository{
 
@@ -43,26 +44,14 @@ class CryptoCoinsRepository implements AbstractCoinsRepository{
 
   @override
   Future<List<CryptoCoinDetail>> getCoinGraphDetails(String currencyCode) async{
-    String websiteUrl = "https://min-api.cryptocompare.com/data/exchange/histoday?fsum=${currencyCode}&tsym=RUB&limit=10";
+    String websiteUrl = "https://min-api.cryptocompare.com/data/v2/histoday?fsym=${currencyCode}&tsym=USD&limit=10";
     final response = await dio.get(websiteUrl);
     final data = response.data;
     final dataFirst = data['Data'] as Map<String, dynamic>;
-    final cryptoChangeOfDay = dataFirst.entries.map((item) {
-      final cryptoCoinData = (item.value as Map<String, dynamic>)['Data'];
-      final high = cryptoCoinData['high'];
-      final low = cryptoCoinData['low'];
-      final open = cryptoCoinData['open'];
-      final close = cryptoCoinData['close'];
-      final dateTime = cryptoCoinData['time'];
-      return CryptoCoinDetail(
-          high: high,
-          low: low,
-          open: open,
-          close: close,
-          dateTime: DateTime.fromMillisecondsSinceEpoch(dateTime * 1000),
-      );
-    }).toList();
-    print(cryptoChangeOfDay);
-    return cryptoChangeOfDay;
+    final dataSecond = dataFirst['Data'] as List<dynamic>;
+    List<CryptoCoinDetail> cryptoChangeOfDays = dataSecond.map((e) => CryptoCoinDetail.fromJson(e)).toList();
+    print(cryptoChangeOfDays);
+    return cryptoChangeOfDays;
   }
+
 }

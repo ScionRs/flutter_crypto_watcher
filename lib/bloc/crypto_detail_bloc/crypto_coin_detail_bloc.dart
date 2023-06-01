@@ -21,10 +21,10 @@ class CryptoCoinDetailBloc extends Bloc<CryptoCoinDetailEvent, CryptoCoinDetailS
       if (state is! CryptoCoinDetailLoaded){
         emit(CryptoCoinDetailLoading());
       }
-
       final coinDetail = await coinsRepository.getCoinGraphDetails(event.currencyCode);
-      emit(CryptoCoinDetailLoaded(coinDetail));
+      emit(CryptoCoinDetailLoaded(coinList: coinDetail));
     } catch (e, st){
+      print("${e} ${st}");
       emit(CryptoCoinDetailFailure(e));
     }
   }
