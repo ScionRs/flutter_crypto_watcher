@@ -8,7 +8,7 @@ class CryptoCoinDetail extends Equatable{
   final double close;
   final DateTime dateTime;
 
-  CryptoCoinDetail({required this.high,required this.low,required this.open,required this.close, required this.dateTime});
+  const CryptoCoinDetail({required this.high,required this.low,required this.open,required this.close, required this.dateTime});
 
   factory CryptoCoinDetail.fromJson(Map<String, dynamic> json) {
     return CryptoCoinDetail(
