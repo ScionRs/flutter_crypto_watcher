@@ -15,21 +15,21 @@ class CryptoCoinsRepository implements AbstractCoinsRepository{
   @override
   Future<List<CryptoCoin>> getCoinsList() async{
     String websiteUrl = "https://www.cryptocompare.com/";
-    final response = await dio.get('https://min-api.cryptocompare.com/data/pricemultifull?fsyms=BTC,ETH,BNB,SOL,AID,CAG,DOV&tsyms=USD,EUR,RUB');
+    final response = await dio.get('https://min-api.cryptocompare.com/data/pricemultifull?fsyms=BTC,ETH,BNB,SOL,AID,CAG,DOV&tsyms=USD');
     final data = response.data;
     final dataRaw = data['RAW'] as Map<String, dynamic>;
     final cryptoList = dataRaw.entries.map((item) {
-      final rubData = (item.value as Map <String, dynamic>)['RUB'];
-      final priceRUB = rubData['PRICE'];
-      final imageUrl = rubData['IMAGEURL'];
-      final openDay = rubData['OPENDAY'];
-      final highDay = rubData['HIGHDAY'];
-      final lowDay = rubData['LOWDAY'];
-      final changeDay = rubData['CHANGEDAY'];
+      final usdData = (item.value as Map <String, dynamic>)['USD'];
+      final priceUSD = usdData['PRICE'];
+      final imageUrl = usdData['IMAGEURL'];
+      final openDay = usdData['OPENDAY'];
+      final highDay = usdData['HIGHDAY'];
+      final lowDay = usdData['LOWDAY'];
+      final changeDay = usdData['CHANGEDAY'];
 
       return CryptoCoin(
         name: item.key,
-        priceInRUB: priceRUB,
+        priceInUSD: priceUSD,
         imageUrl: websiteUrl + imageUrl,
         openDay: openDay,
         highDay: highDay,
@@ -37,7 +37,6 @@ class CryptoCoinsRepository implements AbstractCoinsRepository{
         changeDay: changeDay,
       );
     }).toList();
-    print(cryptoList);
     return cryptoList;
   }
 
@@ -50,7 +49,6 @@ class CryptoCoinsRepository implements AbstractCoinsRepository{
     final dataFirst = data['Data'] as Map<String, dynamic>;
     final dataSecond = dataFirst['Data'] as List<dynamic>;
     List<CryptoCoinDetail> cryptoChangeOfDays = dataSecond.map((e) => CryptoCoinDetail.fromJson(e)).toList();
-    print(cryptoChangeOfDays);
     return cryptoChangeOfDays;
   }
 

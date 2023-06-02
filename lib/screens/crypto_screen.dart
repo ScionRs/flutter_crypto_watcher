@@ -29,22 +29,12 @@ class _CryptoListScreenState extends State<CryptoListScreen> {
     super.initState();
   }
 
-  /*
-  Future<void> _loadCryptoCoins() async {
-    _cryptoCoinsList = await GetIt.I<AbstractCoinsRepository>().getCoinsList();
-    setState(() {});
-  }
-*/
   @override
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
     return Scaffold(
       backgroundColor: AppColors.black2,
-      appBar: AppBar(
-        title: const Text('Crypto'),
-        backgroundColor: AppColors.black2,
-        shadowColor: Colors.transparent,
-       ),
+      appBar: _AppBarWidget(cryptoListBloc: _cryptoListBloc),
       body: RefreshIndicator(
         onRefresh: () async {
           final completer = Completer();
@@ -61,7 +51,7 @@ class _CryptoListScreenState extends State<CryptoListScreen> {
                   itemBuilder: (context, i){
                     final coin = state.coinsList[i];
                     // изменения за день
-                    num cryptoChange = CryptoService.getPercentChange(coin.changeDay,coin.priceInRUB);
+                    num cryptoChange = CryptoService.getPercentChange(coin.changeDay,coin.priceInUSD);
                     // проверяем в плюсе ли значение или нет
                     bool isCryptoChangePlus = cryptoChange > 0 ? true : false;
                     return Padding(
@@ -84,17 +74,12 @@ class _CryptoListScreenState extends State<CryptoListScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              Text('${coin.priceInRUB}', style: textTheme.titleMedium,),
+                              Text('\$${coin.priceInUSD}', style: textTheme.titleMedium,),
                               Text('${cryptoChange.toStringAsFixed(3)} %',
                                 style: textTheme.titleSmall!.copyWith(color: isCryptoChangePlus ? AppColors.success : AppColors.error),),
                             ],
                           ),
-                          onTap: () {
-                            //context.router.push(CryptoCoinDetailRoute(coinDetail: coin));
-                          },
-                          selected: true, // Выбранный элемент списка
-                          enabled: false, // Отключенный элемент списка
-                          contentPadding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 8.0),
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 8.0),
                           dense: true, // Компактный виджет
                           shape: const Border(
                             bottom: BorderSide(
@@ -116,4 +101,35 @@ class _CryptoListScreenState extends State<CryptoListScreen> {
 
     );
   }
+}
+
+class _AppBarWidget extends StatelessWidget with PreferredSizeWidget{
+  const _AppBarWidget({
+    super.key,
+    required CryptoBloc cryptoListBloc,
+  }) : _cryptoListBloc = cryptoListBloc;
+
+  final CryptoBloc _cryptoListBloc;
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      title: const Text('Cryptocurrency Watcher'),
+      centerTitle: true,
+      actions:[
+        Padding(
+          padding: const EdgeInsets.only(right: 4.0),
+          child: IconButton(onPressed: (){
+            _cryptoListBloc.add(LoadCrypto());
+          },
+              icon: const Icon(Icons.refresh,size: 30.0,)),
+        )
+      ],
+      backgroundColor: AppColors.black2,
+      shadowColor: Colors.transparent,
+     );
+  }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
