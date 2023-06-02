@@ -37,8 +37,8 @@ dependencies:
   equatable: ^2.0.5
   carousel_slider: ^4.2.1
   chart_sparkline: ^1.0.13
-  d_chart: ^2.2.11
   intl: ^0.18.1
+  loading_skeleton_niu: ^0.0.1
 
 
 

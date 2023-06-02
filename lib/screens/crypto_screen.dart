@@ -10,6 +10,7 @@ import 'package:crypto_market/service/crypto_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:loading_skeleton_niu/loading_skeleton.dart';
 
 @RoutePage()
 class CryptoListScreen extends StatefulWidget {
@@ -94,7 +95,15 @@ class _CryptoListScreenState extends State<CryptoListScreen> {
             if(state is CryptoLoadingFailure){
               return Text(state.exception.toString());
             }
-            return const Center(child: CircularProgressIndicator());
+            return ListView.builder(
+                itemCount: 15,
+                itemBuilder: (BuildContext context, int index){
+                  return LoadingSkeleton(
+                      width: double.infinity,
+                      height: 35,
+                      margin: const EdgeInsets.all(16),
+                  );
+                });
           }
     ),
       ),

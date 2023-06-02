@@ -9,6 +9,7 @@ import 'package:crypto_market/repository/AbstractCoinsRepository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:loading_skeleton_niu/loading_skeleton.dart';
 
 @RoutePage()
 class CryptoCoinDetailScreen extends StatefulWidget {
@@ -88,7 +89,11 @@ class _CryptoCoinDetailScreenState extends State<CryptoCoinDetailScreen> {
                   if(state is CryptoCoinDetailFailure){
                     return Text(state.exception.toString());
                   }
-                  return const Center(child: CircularProgressIndicator());
+                  return Center(child: LoadingSkeleton(
+                    width: double.infinity,
+                    height: 400,
+                    margin: EdgeInsets.all(16),
+                  ),);
                 },
               ),
             ),
