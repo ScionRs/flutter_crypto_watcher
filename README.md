@@ -1,16 +1,21 @@
-# crypto_market
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# FlutterCryptoWatcher  
+Приложение для просмотра курса криптовалют 
+## Использованные зависимости:  
+- dio: ^5.1.2    
+ - auto_route: ^7.1.0  
+ - flutter_bloc: ^8.1.2  
+ - get_it: ^7.6.0  
+ - equatable: ^2.0.5  
+ - carousel_slider: ^4.2.1  
+ - chart_sparkline: ^1.0.13  
+ - loading_skeleton_niu: ^0.0.1  
+## Функционал:  
+- Загрузка данных о курсе криптовалют
+- Просмотр исторического графика и текущего курса выбраной криптовалюты
+## Запуск проекта:  
+1. Убедитесь, что на вашем компьютере установлен Flutter SDK. Если он не установлен, вы можете скачать его с официального сайта Flutter: https://flutter.dev/docs/get-started/install    
+2. Склонируйте репозиторий с вашим проектом на свой компьютер с помощью команды `git clone`.  
+3. Откройте терминал и перейдите в директорию с вашим проектом.  
+4. Запустите эмулятор Android или iOS или подключите физическое устройство, на котором вы хотите запустить приложение.  
+5. Запустите приложение, используя команду `flutter run`. Приложение должно автоматически запуститься на выбранном устройстве.  
+6. Если вы хотите собрать приложение для выпуска, то можете использовать команду `flutter build`.  
